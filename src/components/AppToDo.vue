@@ -1,7 +1,7 @@
 <template>
   <ul class="todo-list">
     <AppToDoItems v-for="todo in todos" :key="todo.id" :todo="todo" @toggle-todo="toggleTodo"
-      @remove-todo="removeTodo" />
+      @remove-todo="removeTodo"  @editTodo="editTodo"  />
   </ul>
 </template>
 <script lang="ts">
@@ -24,11 +24,15 @@ export default defineComponent({
     },
     removeTodo(id: number) {
       this.$emit('removeTodo', id)
-    }
+    },
+    editTodo(updatedTodo: Todo) {
+      this.$emit("editTodo", updatedTodo);
+    },
   },
   emits: {
     toggleTodo: (id: number) => Number.isInteger(id),
-    removeTodo: (id: number) => Number.isInteger(id)
+    removeTodo: (id: number) => Number.isInteger(id),
+    editTodo: (todo: Todo) => typeof todo === "object",
   }
 })
 </script>

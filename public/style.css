@@ -162,6 +162,13 @@ button {
   cursor: pointer;
 }
 
+.todo-item__actions {
+  display:flex;
+  align-items: center; 
+  justify-content: flex-end;
+  gap: 10px; 
+}
+
 .todo-item:hover {
   box-shadow: 0px 1px 20px rgb(240 240 240 / 80%);
 }
@@ -217,11 +224,25 @@ button {
   transition: opacity 0.2s;
 }
 
+.todo-item__edit-button{
+  opacity: 0;
+  color: var(--secondary-color);
+  transition: opacity 0.2s;
+}
+
 .todo-item:hover .todo-item__remove-button {
   opacity: 1;
 }
 
+.todo-item:hover .todo-item__edit-button {
+  opacity: 1;
+}
+
 .todo-item__remove-button:hover {
+  color: var(--primary-color);
+}
+
+.todo-item__edit-button:hover {
   color: var(--primary-color);
 }
 

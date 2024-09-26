@@ -5,7 +5,7 @@
     <AppFilters :active-filter="activeFilter" @set-filter="setFilter" />
 
     <main class="app-main">
-      <AppToDo :todos="filterdTodos" @toggle-todo="toggleTodo" @remove-todo="removeTodo" />
+      <AppToDo :todos="filterdTodos" @toggle-todo="toggleTodo" @remove-todo="removeTodo"  @edit-todo="editTodo"/>
 
       <AppAddToDo @add-todo="addToDo" />
     </main>
@@ -74,6 +74,13 @@ export default defineComponent({
     removeTodo(id: number) {
       this.todos = this.todos.filter((todo: Todo) => todo.id !== id),
       this.saveTodos();
+    },
+    editTodo(updatedTodo: Todo) {
+      const index = this.todos.findIndex(todo => todo.id === updatedTodo.id);
+      if (index !== -1) {
+        this.todos[index].text = updatedTodo.text; // Обновляем текст задачи
+        this.saveTodos();
+      }
     },
     setFilter(filter: Filter) {
       this.activeFilter = filter

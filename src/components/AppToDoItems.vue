@@ -5,9 +5,14 @@
       </div>
       <span v-if="!isEditing" class="todo-item__text">{{ todo.text }}</span>
     <input v-if="isEditing" v-model="editText" @keyup.enter="saveEdit" @blur="saveEdit" />
-      <button class="todo-item__remove-button" @click.stop="removeTodo">
+    <div class="todo-item__actions">
+    <button class="todo-item__remove-button" @click.stop="removeTodo">
         <i class="bi bi-trash3"></i>
       </button>
+      <button class="todo-item__edit-button" @click.stop="enableEditing" v-if="!isEditing">
+        <i class="bi bi-pencil"></i>
+      </button>
+    </div>
     </li>
 </template>
 
@@ -23,17 +28,33 @@ export default  defineComponent({
       required:true,
   }
  },
+ data() {
+    return {
+      isEditing: false, 
+      editText: this.todo.text,
+    };
+  },
  methods:{
   toggleTodo(){
     this.$emit('toggleTodo', this.todo.id)
   },
   removeTodo(){
     this.$emit('removeTodo', this.todo.id)
-  }
+  },
+  enableEditing() {
+      this.isEditing = true; // Включаем режим редактирования
+    },
+    saveEdit() {
+      if (this.editText.trim() !== "") {
+        this.$emit("editTodo", { ...this.todo, text: this.editText }); // Эмитим событие редактирования
+      }
+      this.isEditing = false; // Выключаем режим редактирования
+    },
  },
  emits:{
   toggleTodo: (id:number)=> Number.isInteger(id),
-  removeTodo: (id:number)=> Number.isInteger(id)
+  removeTodo: (id:number)=> Number.isInteger(id),
+  editTodo: (todo: Todo) => typeof todo === "object",
 }
 })
 </script>
